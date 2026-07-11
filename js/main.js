@@ -253,6 +253,9 @@ function makeCheckerImage() {
 function setImage(image, name) {
   state.image = image;
   state.imageName = name;
+  // 先釋放舊的 GPU 貼圖：新舊影像尺寸不同時，three.js 會沿用舊的
+  // texture storage 只做部分更新，導致 3D 上貼圖沒有完整換新
+  texture.dispose();
   texture.image = image;
   texture.needsUpdate = true;
   updateTexture();
