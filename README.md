@@ -26,6 +26,7 @@ npx serve .
 
 ### UV 展開
 - **原生參數化**：使用曲面本身的參數座標
+- **BFF 保角展開**：Boundary First Flattening（Sawhney & Crane 2017）的簡化實作——解 Yamabe 方程得到目標邊界曲率、走出平面邊界多邊形、cotan Laplacian 調和延拓內部。非圓盤拓撲自動切縫（封閉曲面切狹縫、多邊界曲面在邊界間切開）；圓環等高虧格曲面暫不支援
 - **平面投影**：沿最薄的軸投影
 - **圓柱投影**：繞 Y 軸展開，自動修正 0/1 接縫
 - **球面投影**：經緯度展開，自動修正接縫
@@ -54,6 +55,7 @@ css/style.css       樣式
 js/main.js          場景、UV 編輯器、貼圖變換、匯出
 js/surfaces.js      內建曲面（參數幾何）
 js/unwrap.js        UV 展開演算法（投影 + 接縫處理）
+js/bff.js           BFF 保角展開（拓撲處理、切縫、Yamabe、調和延拓）
 js/objparser.js     極簡 OBJ 解析器
 vendor/             Three.js（MIT，見 THREE-LICENSE）
 ```

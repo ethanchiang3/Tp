@@ -1,7 +1,9 @@
 import * as THREE from 'three';
+import { bffUnwrap } from './bff.js';
 
 export const UNWRAP_METHODS = {
   native: '原生參數化',
+  bff: 'BFF 保角展開',
   planar: '平面投影',
   cylinder: '圓柱投影',
   sphere: '球面投影',
@@ -129,8 +131,10 @@ function boxUnwrap(geom) {
 }
 
 // 回傳帶有新 UV 的幾何。native 表示沿用幾何本身的參數化 UV。
+// bff 在拓撲不支援時會 throw（帶說明訊息）。
 export function applyUnwrap(baseGeom, method) {
   switch (method) {
+    case 'bff': return bffUnwrap(baseGeom);
     case 'planar': return planarUnwrap(baseGeom);
     case 'cylinder': return cylinderUnwrap(baseGeom);
     case 'sphere': return sphereUnwrap(baseGeom);

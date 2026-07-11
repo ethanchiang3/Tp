@@ -284,14 +284,28 @@ function rebuildGeometry() {
   if (!base) return;
 
   let unwrapKey = state.unwrapKey;
-  let geom = applyUnwrap(base, unwrapKey);
+  let geom = null;
+  try {
+    const t0 = performance.now();
+    geom = applyUnwrap(base, unwrapKey);
+    if (unwrapKey === 'bff') {
+      setStatusNote(`BFF 展開完成（${Math.round(performance.now() - t0)} ms）`);
+    }
+  } catch (err) {
+    // BFF 對不支援的拓撲會 throw → 退回原生參數化
+    setStatusNote(err.message);
+    unwrapKey = 'native';
+    geom = applyUnwrap(base, 'native');
+  }
   if (!geom) {
     // 原生參數化但幾何沒有 UV（如未含 vt 的 OBJ）→ 改用方盒投影
     unwrapKey = 'box';
     geom = applyUnwrap(base, 'box');
     setStatusNote('此模型沒有內建 UV，已自動改用方盒投影');
-    document.getElementById('unwrapSelect').value = 'box';
-    state.unwrapKey = 'box';
+  }
+  if (unwrapKey !== state.unwrapKey) {
+    state.unwrapKey = unwrapKey;
+    document.getElementById('unwrapSelect').value = unwrapKey;
   }
   if (base !== state.customGeometry && base !== geom) base.dispose();
 
