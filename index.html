@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>曲面 UV 展開與貼圖工具</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three.module.js",
+        "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <header id="toolbar">
+    <h1>曲面 UV 展開與貼圖</h1>
+
+    <label>曲面
+      <select id="surfaceSelect"></select>
+    </label>
+
+    <label>展開方式
+      <select id="unwrapSelect"></select>
+    </label>
+
+    <button id="uploadImageBtn" class="primary">上傳圖片</button>
+    <button id="checkerBtn">棋盤格</button>
+    <button id="uploadObjBtn">匯入 OBJ</button>
+
+    <span class="spacer"></span>
+
+    <label class="check"><input type="checkbox" id="wireframeChk"> 線框</label>
+    <button id="exportTemplateBtn">匯出 UV 模板</button>
+    <button id="exportTextureBtn">匯出貼圖</button>
+
+    <input type="file" id="imageInput" accept="image/*" hidden>
+    <input type="file" id="objInput" accept=".obj" hidden>
+  </header>
+
+  <main id="content">
+    <section class="panel" id="viewport3dPanel">
+      <div class="panel-title">3D 預覽 <small>（拖曳旋轉・滾輪縮放・右鍵平移）</small></div>
+      <div id="viewport3d"></div>
+    </section>
+
+    <section class="panel" id="uvPanel">
+      <div class="panel-title">UV 展開視圖 <small>（拖曳移動圖片・滾輪縮放圖片）</small></div>
+      <canvas id="uvCanvas"></canvas>
+      <div id="uvControls">
+        <label>縮放
+          <input type="range" id="scaleSlider" min="0.1" max="5" step="0.01" value="1">
+          <span class="val" id="scaleVal">1.00</span>
+        </label>
+        <label>旋轉
+          <input type="range" id="rotSlider" min="-180" max="180" step="1" value="0">
+          <span class="val" id="rotVal">0°</span>
+        </label>
+        <label>位移 U
+          <input type="range" id="offUSlider" min="-1" max="1" step="0.01" value="0">
+          <span class="val" id="offUVal">0.00</span>
+        </label>
+        <label>位移 V
+          <input type="range" id="offVSlider" min="-1" max="1" step="0.01" value="0">
+          <span class="val" id="offVVal">0.00</span>
+        </label>
+        <label>環繞
+          <select id="wrapSelect">
+            <option value="repeat" selected>重複</option>
+            <option value="clamp">延伸</option>
+            <option value="mirror">鏡像</option>
+          </select>
+        </label>
+        <button id="resetUvBtn">重設貼圖</button>
+      </div>
+    </section>
+  </main>
+
+  <footer id="statusbar">載入中…</footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
