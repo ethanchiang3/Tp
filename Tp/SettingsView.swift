@@ -1,3 +1,4 @@
+import Combine
 import ServiceManagement
 import SwiftUI
 
@@ -17,7 +18,7 @@ struct SettingsView: View {
                 Section("Status") {
                     accessibilityRow
                     Toggle("Launch at Login", isOn: $launchAtLogin)
-                        .onChange(of: launchAtLogin) { _, newValue in setLaunchAtLogin(newValue) }
+                        .onChange(of: launchAtLogin) { newValue in setLaunchAtLogin(newValue) }
                 }
                 Section("Hot Zones") {
                     ForEach(HotZone.allCases) { zone in
